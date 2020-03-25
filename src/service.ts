@@ -39,12 +39,18 @@ type DataFetcher = () => Promise<Message>;
 
 export class COVIDService {
   private readonly serviceMap: Map<string, DataFetcher>;
-  private static QUICK_REPLIES = {
+  private static readonly QUICK_REPLIES = {
     items: [
       generateQuickReplyObject('A', 'A'),
       generateQuickReplyObject('B', 'B'),
     ],
   };
+  private static readonly QUICK_REPLIES_WITH_END = {
+    items: [
+      ...COVIDService.QUICK_REPLIES.items,
+      generateQuickReplyObject('Akhiri', 'cukup'),
+    ],
+  }
 
   public constructor(
     private readonly redis: Redis,
@@ -83,6 +89,7 @@ export class COVIDService {
       const message: TextMessage = {
         type: 'text',
         text: understandable ? GREETING_REPLY : FALLBACK_REPLY,
+        quickReply: COVIDService.QUICK_REPLIES,
       };
 
       return await this.client.replyMessage(event.replyToken, message);
@@ -100,16 +107,6 @@ export class COVIDService {
     }
 
     const service = this.serviceMap.get(text);
-    const repeatMessage: TextMessage = {
-      type: 'text',
-      text: REPEAT_REPLY,
-      quickReply: COVIDService.QUICK_REPLIES,
-    };
-
-    repeatMessage.quickReply?.items.push(generateQuickReplyObject(
-      'Akhiri',
-      'cukup',
-    ));
 
     if (!service) {
       const errorMessage: TextMessage = {
@@ -117,19 +114,21 @@ export class COVIDService {
         text: FALLBACK_STATEFUL_REPLY,
       };
 
-      return await this.client.pushMessage(
+      await this.client.replyMessage(
+        event.replyToken,
+        errorMessage,
+      );
+    } else {
+      const serviceMessage = await service();
+
+      await this.redis.setex(source, Number(process.env.EXPIRATION_TIME), 0);
+      await this.client.pushMessage(
         source,
-        [errorMessage, repeatMessage],
+        serviceMessage,
       );
     }
 
-    const serviceMessage = await service();
-
-    await this.redis.setex(source, Number(process.env.EXPIRATION_TIME), 0);
-    return await this.client.pushMessage(
-      source,
-      [serviceMessage, repeatMessage],
-    );
+    return await this.sendLoopMessage(source);
   }
 
   private handleA = async (): Promise<Message> => {
@@ -138,7 +137,7 @@ export class COVIDService {
     const result = await get(endpoint);
 
     const text =
-    `Berikut merupakan perkembangan COVID-19 di Indonesia:
+      `Berikut merupakan perkembangan COVID-19 di Indonesia:
     
 Jumlah Terkonfirmasi: ${result.body.confirmed.value}
 Jumlah Sembuh: ${result.body.recovered.value}
@@ -172,5 +171,21 @@ Terakhir diupdate pada ${this.getUpdateString(result.body.lastUpdate)}`;
       'cccc, d MMMM Y kk:mm',
       { locale: id },
     ) + ' WIB';
+  }
+
+  private sendLoopMessage = (
+    source: string,
+  ): Promise<MessageAPIResponseBase> => {
+    return new Promise((resolve) => {
+      setTimeout(async () => {
+        const message: TextMessage = {
+          type: 'text',
+          text: REPEAT_REPLY,
+          quickReply: COVIDService.QUICK_REPLIES_WITH_END,
+        };
+
+        resolve(await this.client.pushMessage(source, message));
+      }, 2000);
+    });
   }
 }
