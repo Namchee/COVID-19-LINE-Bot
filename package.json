@@ -1,14 +1,15 @@
 {
-  "name": "namchee-boilerplate",
+  "name": "covid19-line-bot",
   "version": "1.0.0",
-  "description": "A simple boilerplate with namchee's style",
+  "description": "A simple LINE chatbot for displaying COVID-19 status in Indonesia",
   "main": "index.js",
   "scripts": {
     "test": "ECHO: Do not test this, duh",
     "refresh": "rm -rf node_modules/ dist/ build/ && npm i"
   },
   "keywords": [
-    "boilerplate",
+    "chatbot",
+    "line",
     "eslint",
     "typescript"
   ],
@@ -16,16 +17,25 @@
   "license": "MIT",
   "devDependencies": {
     "@types/eslint": "^6.1.8",
+    "@types/ioredis": "^4.14.9",
+    "@types/superagent": "^4.1.7",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-jsdoc": "^22.1.0",
     "rimraf": "^3.0.2",
     "ts-node": "^8.7.0",
     "typescript": "^3.8.3",
     "typesync": "^0.6.1"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^6.8.4",
+    "@now/node": "^1.5.0",
+    "date-fns": "^2.11.0",
+    "date-fns-tz": "^1.0.10",
+    "ioredis": "^4.16.0",
+    "superagent": "^5.2.2"
   }
 }

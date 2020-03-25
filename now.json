@@ -1,0 +1,24 @@
+{
+    "version": 2,
+    "env": {
+        "API_URL": "@api-url",
+        "CHANNEL_ACCESS_TOKEN": "@channel-access-token",
+        "CHANNEL_SECRET": "@channel-secret",
+        "REDIS_URL": "@redis-url",
+        "REDIS_PORT": "@redis-port",
+        "REDIS_PASSWORD": "@redis-password",
+        "EXPIRATION_TIME": "@expiration-time"
+    },
+    "functions": {
+        "api/webhook.ts": {
+            "runtime": "@now/node@1.4.1"
+        }
+    },
+    "routes": [
+        {
+            "src": "/webhook",
+            "methods": ["POST"],
+            "dest": "/api/webhook"
+        }
+    ]
+}
