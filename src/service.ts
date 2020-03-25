@@ -113,7 +113,7 @@ export class COVIDService {
       };
 
       return await this.client.pushMessage(
-        event.replyToken,
+        source,
         [errorMessage, repeatMessage],
       );
     }
@@ -122,7 +122,7 @@ export class COVIDService {
 
     await this.redis.setex(source, Number(process.env.EXPIRATION_TIME), 0);
     return await this.client.pushMessage(
-      event.replyToken,
+      source,
       [serviceMessage, repeatMessage],
     );
   }
