@@ -1,4 +1,5 @@
 {
+    "scope": "covid-19-bot"
     "version": 2,
     "env": {
         "API_URL": "@api-url",
