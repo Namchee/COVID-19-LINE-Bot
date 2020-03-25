@@ -106,6 +106,11 @@ export class COVIDService {
       quickReply: COVIDService.QUICK_REPLIES,
     };
 
+    repeatMessage.quickReply?.items.push(generateQuickReplyObject(
+      'Akhiri',
+      'cukup',
+    ));
+
     if (!service) {
       const errorMessage: TextMessage = {
         type: 'text',
