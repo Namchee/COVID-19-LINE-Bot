@@ -18,6 +18,7 @@ import {
   FALLBACK_REPLY,
   END_REPLY,
   REPEAT_REPLY,
+  FALLBACK_STATEFUL_REPLY,
 } from './reply';
 
 function generateQuickReplyObject(
@@ -82,7 +83,6 @@ export class COVIDService {
       const message: TextMessage = {
         type: 'text',
         text: understandable ? GREETING_REPLY : FALLBACK_REPLY,
-        quickReply: COVIDService.QUICK_REPLIES,
       };
 
       return await this.client.replyMessage(event.replyToken, message);
@@ -100,21 +100,31 @@ export class COVIDService {
     }
 
     const service = this.serviceMap.get(text);
+    const repeatMessage: TextMessage = {
+      type: 'text',
+      text: REPEAT_REPLY,
+      quickReply: COVIDService.QUICK_REPLIES,
+    };
 
     if (!service) {
-      const message: TextMessage = {
+      const errorMessage: TextMessage = {
         type: 'text',
-        text: FALLBACK_REPLY,
+        text: FALLBACK_STATEFUL_REPLY,
       };
 
-      return await this.client.replyMessage(event.replyToken, message);
+      return await this.client.pushMessage(
+        event.replyToken,
+        [errorMessage, repeatMessage],
+      );
     }
 
-    const msg = await service();
+    const serviceMessage = await service();
 
     await this.redis.setex(source, Number(process.env.EXPIRATION_TIME), 0);
-    await this.client.replyMessage(event.replyToken, msg);
-    return await this.sendLoopMessage(source);
+    return await this.client.pushMessage(
+      event.replyToken,
+      [serviceMessage, repeatMessage],
+    );
   }
 
   private handleA = async (): Promise<Message> => {
@@ -157,24 +167,5 @@ Terakhir diupdate pada ${this.getUpdateString(result.body.lastUpdate)}`;
       'cccc, d MMMM Y kk:mm',
       { locale: id },
     ) + ' WIB';
-  }
-
-  private sendLoopMessage = (
-    source: string,
-  ): Promise<MessageAPIResponseBase> => {
-    return new Promise((resolve) => {
-      setTimeout(async () => {
-        const qr = COVIDService.QUICK_REPLIES;
-        qr.items.push(generateQuickReplyObject('Cukup', 'cukup'));
-
-        const message: TextMessage = {
-          type: 'text',
-          text: REPEAT_REPLY,
-          quickReply: qr,
-        };
-
-        resolve(await this.client.pushMessage(source, message));
-      }, 2000);
-    });
   }
 }
