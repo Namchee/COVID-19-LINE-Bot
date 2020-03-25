@@ -1,5 +1,5 @@
 {
-    "scope": "covid-19-bot"
+    "scope": "namchee-covid-19",
     "version": 2,
     "env": {
         "API_URL": "@api-url",
