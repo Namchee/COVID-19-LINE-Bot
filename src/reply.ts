@@ -26,4 +26,6 @@ export const END_REPLY = `Baik! Terima Kasih sudah menggunakan layanan saya. Tet
 #stayathome
 #diamdirumahcuk`;
 
-export const FALLBACK_REPLY = `Mohon maaf, tapi saya tidak mengerti apa yang kamu maksud. Mungkin permintaan kamu terlalu lama sehingga saya lupa? ${String.fromCodePoint(0x100092)}`;
+export const FALLBACK_REPLY = `Mohon maaf, tapi saya tidak mengerti apa yang kamu maksud. Mungkin permintaan kamu terlalu lama sehingga saya lupa? ${String.fromCodePoint(0x100092)}
+
+PS: Untuk menggunakan layanan saya, cukup sapa saya menggunakan sapaan biasa seperti 'Hai', 'Halo', dan sebagainya`;

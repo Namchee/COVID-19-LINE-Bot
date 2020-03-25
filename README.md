@@ -2,7 +2,8 @@
 
 [![Code Style: Google](https://img.shields.io/badge/code%20style-google-blueviolet.svg)](https://github.com/google/gts)
 
-Sebuah chatbot sederhana pada platform LINE untuk memberikan status perkembangan COVID-19 di Indonesia (dengan kualitas kode yang _spectacularly horrible_)
+Sebuah chatbot sederhana pada platform LINE untuk memberikan status perkembangan COVID-19 di Indonesia.
+Data diambil dari [Covid-19 API by mathdroid](https://github.com/mathdroid/covid-19-api)
 
 ## Lisensi
 
