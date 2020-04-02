@@ -89,7 +89,7 @@ export class COVIDService {
       const message: TextMessage = {
         type: 'text',
         text: understandable ? GREETING_REPLY : FALLBACK_REPLY,
-        quickReply: COVIDService.QUICK_REPLIES,
+        quickReply: understandable ? COVIDService.QUICK_REPLIES : undefined,
       };
 
       return await this.client.replyMessage(event.replyToken, message);
