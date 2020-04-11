@@ -2,13 +2,14 @@ import crypto from 'crypto';
 import Redis from 'ioredis';
 import { NowRequest, NowResponse } from '@now/node';
 import { Client } from '@line/bot-sdk';
-import { COVIDService } from '../src/service';
+import { BotHub, Service } from '../src/hub';
+import { handleA, handleB, handleC, handleD, handleE } from './../src/services';
 
-let serviceHub: COVIDService;
+let botHub: BotHub;
 
-function setupDependency(): COVIDService {
-  if (serviceHub) {
-    return serviceHub;
+function setupDependency(): BotHub {
+  if (botHub) {
+    return botHub;
   }
 
   const redisClient = new Redis(
@@ -24,9 +25,17 @@ function setupDependency(): COVIDService {
     channelSecret: process.env.CHANNEL_SECRET,
   });
 
-  serviceHub = new COVIDService(redisClient, lineClient);
+  const serviceMap = new Map<string, Service>([
+    ['a', handleA],
+    ['b', handleB],
+    ['c', handleC],
+    ['d', handleD],
+    ['e', handleE],
+  ]);
 
-  return serviceHub;
+  botHub = new BotHub(redisClient, lineClient, serviceMap);
+
+  return botHub;
 }
 
 async function verifyLineSignature(
