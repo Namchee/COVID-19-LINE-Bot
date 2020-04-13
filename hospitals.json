@@ -1,0 +1,214 @@
+{
+  "aceh": [
+    "RSU Dr. Zainoel Abidin Banda Aceh",
+    "RSU Cut Meutia Lhokseumawe"
+  ],
+  "sumatera utara": [
+    "RSUP H. Adam Malik Medan",
+    "RSU Kabanjahe",
+    "RSU Dr. Djasamen Saragih Pematang Siantar",
+    "RSUD Tarutung",
+    "RSU Padang Sidempuan"
+  ],
+  "sumatera barat": [
+    "RSUP Dr. M. Jamil Padang",
+    "RSUD Dr. Achmad Mochtar Bukittinggi"
+  ],
+  "riau": [
+    "RSU Arifin Achmad",
+    "RSUD Kota Dumai",
+    "RSUD Puri Husada Tembilahan"
+  ],
+  "kepulauan riau": [
+    "RSUD Provinsi Kepulauan Riau Tanjung Pinang",
+    "RSUD Embung Fatimah",
+    "RSUD Muhammad Sani Kab. Karimun",
+    "RS Badan Pengusahaan Batam"
+  ],
+  "jambi": [
+    "RSUD Raden Mattaher Jambi"
+  ],
+  "sumatera selatan": [
+    "RSUP M. Hoesin",
+    "RS Dr. Rivai Abdullah",
+    "RSUD Siti Fatimah Provinsi Sumatera Selatan",
+    "RSUD Lahat",
+    "RSUD Kayuagung"
+  ],
+  "bangka belitung": [
+    "RSUD Depati Hamzah",
+    "RSUD dr. H. Marsidi Judono"
+  ],
+  "bengkulu": [
+    "RSUD M. Yunus Bengkulu",
+    "RSUD Arga Makmur",
+    "RSUD Hasanuddin Damrah Manna"
+  ],
+  "lampung": [
+    "RSUD Dr. H. Abdul Moeloek",
+    "RSUD Ahmad Yani Metro",
+    "RSUD Dr. H. Bob Bazar, SKM",
+    "RSUD Mayjen H.M. Ryacudu"
+  ],
+  "dki jakarta": [
+    "RSPI Prof. Dr. Sulianti Saroso",
+    "RSUP Persahabatan",
+    "RSUP Fatmawati",
+    "RSUD Cengkareng",
+    "RSUD Pasar Minggu",
+    "RS Bhayangkara TK. I R. Said Sukanto",
+    "RSPAD Gatot Subroto",
+    "RSAL dr. Mintoharjo",
+    "RS Pertamina Jaya"
+  ],
+  "jawa barat": [
+    "41. RSUD Kabupaten Bekasi",
+    "RS Hermina Grand Wisata",
+    "43. RS Sentra Medika ",
+    "44. RS Siloam Cikarang",
+    "45. RS Omni Cikarang",
+    "46. RS Mitra Keluarga Cikarang",
+    "47. RS Dokter Adam Thalib",
+    "48. RS Grha MM2100",
+    "49. RS Cibitung Medika",
+    "RS Annisa",
+    "RSUP dr. Hasan Sadikin",
+    "RS Paru Dr. H. A. Rotinsulu",
+    "RS Paru dr. M. Goenawan Partowidigdo",
+    "RSUD Gunung Jati Cirebon",
+    "RSUD R. Syamsudin, SH Sukabumi",
+    "RSUD dr. Slamet Garut",
+    "RSUD Kabupaten Indramayu",
+    "RSU Tk. II Dustira"
+  ],
+  "jawa tengah": [
+    "RSUP dr. Kariadi",
+    "RS dr. Seoradji Tirtonegoro Klaten",
+    "RS Paru dr. Ario Wirawan",
+    "RSUD Prof. Dr. Margono Soekarjo",
+    "RSUD dr. Moewardi Surakarta",
+    "RSUD Tidar Magelang",
+    "RSUD KRMT Wongsonegoro",
+    "RSUD Kardinah Tegal",
+    "RSUD Banyumas",
+    "RSU dr. Loekmonohadi",
+    "RSUD Kraton",
+    "RSUD dr. Soeselo Slawi",
+    "RSUD RAA Soewondo Kendal",
+    "RSUD dr. Soetomo",
+    "RSUD dr. Soedono Madiun",
+    "RSUD dr. Saiful Anwar",
+    "RSUD dr. Soebandi Jember",
+    "RSUD Kabupaten Kediri Pare",
+    "RSUD dr. R. Koesma Tuban",
+    "RSUD Blambangan",
+    "RSUD Dr. R. Sosodoro Djatikoesoemo",
+    "RSUD Dr. Iskak Tulungagung",
+    "RSUD Sidoarjo",
+    "RS Universitas Airlangga"
+  ],
+  "jawa timur": [
+    "RSUD dr. Soetomo",
+    "RSUD dr. Soedono Madiun",
+    "RSUD dr. Saiful Anwar",
+    "RSUD dr. Soebandi Jember",
+    "RSUD Kabupaten Kediri Pare",
+    "RSUD dr. R. Koesma Tuban",
+    "RSUD Blambangan",
+    "RSUD Dr. R. Sosodoro Djatikoesoemo",
+    "RSUD Dr. Iskak Tulungagung",
+    "RSUD Sidoarjo",
+    "RS Universitas Airlangga"
+  ],
+  "bali": [
+    "RSUP Sanglah",
+    "RSUD Sanjiwani Gianyar",
+    "RSUD Tabanan",
+    "RSUD Kabupaten Buleleng"
+  ],
+  "nusa tenggara barat": [
+    "RSUD NTB",
+    "RSUD Kota Bima",
+    "RSUD Dr. R. Sudjono",
+    "RSUD H. L. Manambai Abdul Kadir"
+  ],
+  "nusa tenggara timur": [
+    "RSUD Prof. dr. W. Z. Johannes",
+    "RSU dr. TC. Hillers Maumere",
+    "RSUD Komodo Labuan Bajo"
+  ],
+  "kalimantan barat": [
+    "RSUD dr. Soedarso Pontianak",
+    "RSUD dr. Abdul Azis Singkawang",
+    "RSUD Ade Mohamad Djoen Sintang",
+    "RSUD dr. Agoesdjam Ketapang"
+  ],
+  "kalimantan tengah": [
+    "RSUD dr. Doris Sylvanus Palangkaraya",
+    "RSUD dr. Murjani Sampit",
+    "RSUD Sultan Imanuddin Pangkalan Bun"
+  ],
+  "kalimantan selatan": [
+    "RSUD Ulin Banjarmasin",
+    "RSUD H. Boejasin Pelaihari"
+  ],
+  "kalimantan timur": [
+    "RSUD Abdul Wahab Sjahrani",
+    "RSUD dr. Kanujoso Djatiwibowo",
+    "RSU Taman Husada Bontang",
+    "RSUD Panglima Sebaya",
+    "RSUD Aji Muhammad Parikesit"
+  ],
+  "kalimantan utara": [
+    "RSUD Kota Tarakan",
+    "RSUD Tanjung Selor"
+  ],
+  "gorontalo": [
+    "RSUD Prof. dr. H. Aloei Saboe"
+  ],
+  "sulawesi utara": [
+    "RSUP Prof. dr. R. D Kandou",
+    "RSU Ratatotok Buyat",
+    "RSUD Kotamobagu",
+    "RSUD dr. Sam Ratulangi"
+  ],
+  "sulawesi barat": [
+    "RSUD Provinsi Sulawesi Barat"
+  ],
+  "sulawesi tengah": [
+    "RSUD Undata Palu",
+    "RSU Anutapura Palu",
+    "RSUD Banggai Luwuk",
+    "RSU Mokopido Toli-Toli",
+    "RSUD Kolonedale"
+  ],
+  "sulawesi selatan": [
+    "RSUP dr. Wahidin Sudirohusodo",
+    "RS Dr. Tadjuddin Chalid MPH",
+    "RSUD Labuang Baji",
+    "RSUD Andi Makkasau Parepare",
+    "RSU Lakipadada Toraja",
+    "RSUD Kabupaten Sinjai",
+    "RS Tk. II Pelamonia"
+  ],
+  "sulawesi tenggara": [
+    "RS Bahtera Mas Kendari"
+  ],
+  "maluku": [
+    "RSUP dr. J. Leimena",
+    "RSU Dr. M. Haulussy Ambon",
+    "RSUD dr. P. P. Magrettti Saumlaki"
+  ],
+  "maluku utara": [
+    "RSUD dr. H. Chasan Boesoirie"
+  ],
+  "papua": [
+    "RSU Jayapura",
+    "RSU Nabire",
+    "RSU Merauke"
+  ],
+  "papua barat": [
+    "RSUD Sorong",
+    "RSUD Manokwari"
+  ]
+}

@@ -19,6 +19,7 @@ export class BotHub {
       BotHub.generateQuickReplyObject('C', 'C'),
       BotHub.generateQuickReplyObject('D', 'D'),
       BotHub.generateQuickReplyObject('E', 'E'),
+      BotHub.generateLocationAction('location test'),
     ],
   };
 
@@ -31,6 +32,10 @@ export class BotHub {
   public handleBotQuery = async (
     event: WebhookEvent,
   ): Promise<MessageAPIResponseBase | null> => {
+    if (event.type === 'message' && event.message.type === 'location') {
+      console.log(event.message);
+    }
+
     if (event.source.type !== 'user' ||
       event.type !== 'message' ||
       event.message.type !== 'text'
@@ -129,6 +134,18 @@ export class BotHub {
         type: 'message',
         label,
         text,
+      },
+    };
+  }
+
+  private static generateLocationAction(
+    label: string,
+  ): QuickReplyItem {
+    return {
+      type: 'action',
+      action: {
+        type: 'location',
+        label,
       },
     };
   }
