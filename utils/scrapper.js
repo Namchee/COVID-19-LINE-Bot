@@ -1,9 +1,6 @@
 const superagent = require('superagent');
 const cheerio = require('cheerio');
 const fs = require('fs');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 async function getHospitals() {
   const obj = {};
@@ -24,7 +21,7 @@ async function getHospitals() {
         const pattern = /^\d+\./;
 
         if (pattern.test(next.children[0].data)) {
-          hospitals.push(next.children[0].data.replace(/^\d+\. /, ''));
+          hospitals.push(next.children[0].data.replace(/^\d+\.\s/, ''));
         }
 
         next = next.next.next;
