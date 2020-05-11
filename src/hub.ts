@@ -9,7 +9,10 @@ import {
 import { Redis } from 'ioredis';
 import reply from './reply.json';
 
-export type Service = () => Promise<Message>;
+/**
+ * Some kind of pseudo-interface that can only be used in functions
+ */
+export type BotService = () => Promise<Message>;
 
 export class BotHub {
   private static readonly QUICK_REPLIES = {
@@ -19,23 +22,19 @@ export class BotHub {
       BotHub.generateQuickReplyObject('C', 'C'),
       BotHub.generateQuickReplyObject('D', 'D'),
       BotHub.generateQuickReplyObject('E', 'E'),
-      BotHub.generateLocationAction('location test'),
+      BotHub.generateQuickReplyObject('Akhiri', 'cukup'),
     ],
   };
 
   public constructor(
     private readonly redis: Redis,
     private readonly client: Client,
-    private readonly serviceMap: Map<string, Service>,
+    private readonly serviceMap: Map<string, BotService>,
   ) { }
 
   public handleBotQuery = async (
     event: WebhookEvent,
   ): Promise<MessageAPIResponseBase | null> => {
-    if (event.type === 'message' && event.message.type === 'location') {
-      console.log(event.message);
-    }
-
     if (event.source.type !== 'user' ||
       event.type !== 'message' ||
       event.message.type !== 'text'
@@ -100,18 +99,15 @@ export class BotHub {
       );
     }
 
-    return await this.sendLoopMessage(source);
+    return await this.sendLINEMessage(source);
   }
 
-  private sendLoopMessage = (
+  private sendLINEMessage = (
     source: string,
   ): Promise<MessageAPIResponseBase> => {
     return new Promise((resolve) => {
       setTimeout(async () => {
         const quickReply = JSON.parse(JSON.stringify(BotHub.QUICK_REPLIES));
-        quickReply.items.push(
-          BotHub.generateQuickReplyObject('Akhiri', 'cukup'),
-        );
 
         const message: TextMessage = {
           type: 'text',
@@ -134,18 +130,6 @@ export class BotHub {
         type: 'message',
         label,
         text,
-      },
-    };
-  }
-
-  private static generateLocationAction(
-    label: string,
-  ): QuickReplyItem {
-    return {
-      type: 'action',
-      action: {
-        type: 'location',
-        label,
       },
     };
   }

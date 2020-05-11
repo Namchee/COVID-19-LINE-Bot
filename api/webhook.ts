@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import Redis from 'ioredis';
 import { NowRequest, NowResponse } from '@now/node';
 import { Client } from '@line/bot-sdk';
-import { BotHub, Service } from '../src/hub';
+import { BotHub, BotService } from '../src/hub';
 import { handleA, handleB, handleC, handleD, handleE } from './../src/services';
 
 let botHub: BotHub;
@@ -25,7 +25,7 @@ function setupDependency(): BotHub {
     channelSecret: process.env.CHANNEL_SECRET,
   });
 
-  const serviceMap = new Map<string, Service>([
+  const serviceMap = new Map<string, BotService>([
     ['a', handleA],
     ['b', handleB],
     ['c', handleC],
@@ -54,7 +54,7 @@ async function verifyLineSignature(
   }
 }
 
-export default async function handler(
+export default async function handleWebhookEvent(
   req: NowRequest,
   res: NowResponse,
 ): Promise<NowResponse> {
