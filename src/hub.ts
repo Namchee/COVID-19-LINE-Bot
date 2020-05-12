@@ -2,18 +2,16 @@ import {
   Client,
   WebhookEvent,
   MessageAPIResponseBase,
-  Message,
   TextMessage,
   QuickReplyItem,
 } from '@line/bot-sdk';
 import { Redis } from 'ioredis';
 import reply from './reply.json';
+import { COVIDService } from './types/service';
 
 /**
- * Some kind of pseudo-interface that can only be used in functions
+ * A class which defines a hub to map request to correct services
  */
-export type BotService = () => Promise<Message>;
-
 export class BotHub {
   private static readonly QUICK_REPLIES = {
     items: [
@@ -29,9 +27,12 @@ export class BotHub {
   public constructor(
     private readonly redis: Redis,
     private readonly client: Client,
-    private readonly serviceMap: Map<string, BotService>,
+    private readonly serviceMap: Map<string, COVIDService>,
   ) { }
 
+  /**
+   * Function to handle user queries and reply with proper answer(s)
+   */
   public handleBotQuery = async (
     event: WebhookEvent,
   ): Promise<MessageAPIResponseBase | null> => {
@@ -102,6 +103,9 @@ export class BotHub {
     return await this.sendLINEMessage(source);
   }
 
+  /**
+   * A function to format response to a LINE-compliant message
+   */
   private sendLINEMessage = (
     source: string,
   ): Promise<MessageAPIResponseBase> => {
@@ -120,6 +124,12 @@ export class BotHub {
     });
   }
 
+  /**
+   * A wrapper function to create a QuickReplyItem
+   *
+   * @param {string} label Item's label (a text which shown to the user)
+   * @param {string} text Text to be sent to user when the item is clicked
+   */
   private static generateQuickReplyObject(
     label: string,
     text: string,

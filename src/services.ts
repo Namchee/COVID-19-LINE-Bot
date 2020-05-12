@@ -5,10 +5,15 @@ import { id } from 'date-fns/locale';
 import { utcToZonedTime } from 'date-fns-tz';
 import reply from './reply.json';
 
-function formatUpdateString(lastUpdate: string): string {
-  const date = new Date(lastUpdate);
+/**
+ * Small utility function to format date into a usual Indonesian datetime format
+ *
+ * @param {string} date Date string, must be parseable
+ */
+function formatUpdateString(date: string): string {
+  const dateObj = new Date(date);
 
-  const zonedTime = utcToZonedTime(date, 'Asia/Jakarta');
+  const zonedTime = utcToZonedTime(dateObj, 'Asia/Jakarta');
 
   return `${format(
     zonedTime,
