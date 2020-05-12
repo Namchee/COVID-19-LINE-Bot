@@ -1,6 +1,6 @@
 {
   "greetings": ["halo", "hai", "hello", "hi"],
-  "endings": ["akhiri", "cukup", "sudah", "terima kasih", "thank you"],
+  "endings": ["akhiri", "cukup", "sudah", "terima kasih", "thank you", "end"],
 
   "reply": {
     "greeting": "Halo! Saya adalah bot sederhana yang bisa membantu kamu untuk mendapatkan informasi terbaru mengenai status COVID-19 di Indonesia.\n\nSaya bisa bantu kamu untuk hal-hal berikut:\nA. Apa itu virus korona?\nB. Bagaimana cara virus korona menyebar?\nC. Apa yang harus saya lakukan dalam menghadapi pandemi ini?\nD. Persebaran COVID-19 di Indonesia,\nE. Bagaimana cara saya menghubungi pihak terkait?\n\nKamu dapat memilih salah satu dari huruf diatas dan mengirimnya ke chat ini",
