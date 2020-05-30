@@ -4,7 +4,14 @@ import { NowRequest, NowResponse } from '@now/node';
 import { Client } from '@line/bot-sdk';
 import { COVIDService } from './../src/types/service';
 import { BotHub } from '../src/hub';
-import { handleA, handleB, handleC, handleD, handleE } from '../src/services';
+import {
+  handleA,
+  handleB,
+  handleC,
+  handleD,
+  handleE,
+  handleF,
+} from '../src/services';
 
 let botHub: BotHub;
 
@@ -35,6 +42,7 @@ function setupDependency(): BotHub {
     ['c', handleC],
     ['d', handleD],
     ['e', handleE],
+    ['f', handleF],
   ]);
 
   botHub = new BotHub(redisClient, lineClient, serviceMap);
