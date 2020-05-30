@@ -39,11 +39,18 @@ export async function handleB(): Promise<Message> {
 export async function handleC(): Promise<Message> {
   return {
     type: 'text',
-    text: reply.data.todo,
+    text: reply.data.symptomps,
   };
 }
 
 export async function handleD(): Promise<Message> {
+  return {
+    type: 'text',
+    text: reply.data.todo,
+  };
+}
+
+export async function handleE(): Promise<Message> {
   const endpoint = process.env.API_URL || '';
 
   const result = await get(endpoint);
@@ -63,7 +70,7 @@ Terakhir diupdate pada ${formatUpdateString(result.body.lastUpdate)}`;
   };
 }
 
-export async function handleE(): Promise<Message> {
+export async function handleF(): Promise<Message> {
   return {
     type: 'text',
     text: reply.data.contact,

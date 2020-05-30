@@ -20,6 +20,7 @@ export class BotHub {
       BotHub.generateQuickReplyObject('C', 'C'),
       BotHub.generateQuickReplyObject('D', 'D'),
       BotHub.generateQuickReplyObject('E', 'E'),
+      BotHub.generateQuickReplyObject('F', 'F'),
       BotHub.generateQuickReplyObject('Akhiri', 'cukup'),
     ],
   };
@@ -60,7 +61,7 @@ export class BotHub {
         type: 'text',
         text: understandable ?
           reply.reply.greeting :
-          reply.reply.fallback_reply,
+          reply.base_fallback + reply.reply.fallback_reply,
         quickReply: understandable ? BotHub.QUICK_REPLIES : undefined,
       };
 
@@ -83,7 +84,7 @@ export class BotHub {
     if (!service) {
       const errorMessage: TextMessage = {
         type: 'text',
-        text: reply.reply.fallback_stateful,
+        text: reply.base_fallback,
       };
 
       await this.client.replyMessage(
@@ -120,7 +121,7 @@ export class BotHub {
         };
 
         resolve(await this.client.pushMessage(source, message));
-      }, 2000);
+      }, 2500);
     });
   }
 

@@ -8,12 +8,13 @@ Sejak tanggal 6 April 2020, chatbot ini merupakan bagian dari pemenuhan tugas Pe
 
 ## Fitur
 
-1. Menjawab pertanyaan dasar mengenai pandemi COVID-19 (Apa itu COVID-19, Apa yang harus saya lakukan, dan lain-lain)
+1. Menjawab pertanyaan dasar mengenai pandemi COVID-19 (Apa itu COVID-19, Apa yang harus saya lakukan, dan lain-lain). Informasi diambil dari [laman resmi WHO mengenai COVID-19](https://www.who.int/emergencies/diseases/novel-coronavirus-2019/question-and-answers-hub/q-a-detail/q-a-coronaviruses).
 2. Menyajikan data perkembangan COVID-19 di Indonesia (data diambil dari Data diambil dari [COVID-19 API oleh mathdroid](https://github.com/mathdroid/covid-19-api))
 
 ## Tech Stack
 
-1. JavaScript (ECMAScript 2017)
+1. JavaScript (ES2017)
+2. Typescript ^3.8
 
 ## Lisensi
 
