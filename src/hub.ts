@@ -6,7 +6,7 @@ import {
   QuickReplyItem,
 } from '@line/bot-sdk';
 import { Redis } from 'ioredis';
-import reply from './reply.json';
+import knowledge from './reply.json';
 import { COVIDService } from './types/service';
 
 /**
@@ -20,6 +20,7 @@ export class BotHub {
       BotHub.generateQuickReplyObject('C', 'C'),
       BotHub.generateQuickReplyObject('D', 'D'),
       BotHub.generateQuickReplyObject('E', 'E'),
+      BotHub.generateQuickReplyObject('F', 'F'),
       BotHub.generateQuickReplyObject('Akhiri', 'cukup'),
     ],
   };
@@ -48,7 +49,7 @@ export class BotHub {
     const text = event.message.text;
 
     if (state === null) {
-      const understandable = reply.greetings.some(
+      const understandable = knowledge.greetings.some(
         greeting => text.toLowerCase() === greeting,
       );
 
@@ -59,20 +60,20 @@ export class BotHub {
       const message: TextMessage = {
         type: 'text',
         text: understandable ?
-          reply.reply.greeting :
-          reply.reply.fallback_reply,
+          knowledge.reply.greeting + knowledge.base_message :
+          knowledge.base_fallback + knowledge.reply.fallback_reply,
         quickReply: understandable ? BotHub.QUICK_REPLIES : undefined,
       };
 
       return await this.client.replyMessage(event.replyToken, message);
     }
 
-    if (reply.endings.some(end => text.toLowerCase() === end)) {
+    if (knowledge.endings.some(end => text.toLowerCase() === end)) {
       await this.redis.del(source);
 
       const message: TextMessage = {
         type: 'text',
-        text: reply.reply.end,
+        text: knowledge.reply.end,
       };
 
       return await this.client.replyMessage(event.replyToken, message);
@@ -83,7 +84,7 @@ export class BotHub {
     if (!service) {
       const errorMessage: TextMessage = {
         type: 'text',
-        text: reply.reply.fallback_stateful,
+        text: knowledge.base_fallback,
       };
 
       await this.client.replyMessage(
@@ -115,12 +116,12 @@ export class BotHub {
 
         const message: TextMessage = {
           type: 'text',
-          text: reply.reply.repeat,
+          text: knowledge.reply.repeat + knowledge.base_message,
           quickReply,
         };
 
         resolve(await this.client.pushMessage(source, message));
-      }, 2000);
+      }, 2500);
     });
   }
 
