@@ -3,7 +3,7 @@ import { get } from 'superagent';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import { utcToZonedTime } from 'date-fns-tz';
-import reply from './reply.json';
+import knowledge from './reply.json';
 
 /**
  * Small utility function to format date into a usual Indonesian datetime format
@@ -25,28 +25,28 @@ function formatUpdateString(date: string): string {
 export async function handleA(): Promise<Message> {
   return {
     type: 'text',
-    text: reply.data.what,
+    text: knowledge.data.what,
   };
 }
 
 export async function handleB(): Promise<Message> {
   return {
     type: 'text',
-    text: reply.data.how,
+    text: knowledge.data.how,
   };
 }
 
 export async function handleC(): Promise<Message> {
   return {
     type: 'text',
-    text: reply.data.symptomps,
+    text: knowledge.data.symptomps,
   };
 }
 
 export async function handleD(): Promise<Message> {
   return {
     type: 'text',
-    text: reply.data.todo,
+    text: knowledge.data.todo,
   };
 }
 
@@ -73,6 +73,6 @@ Terakhir diupdate pada ${formatUpdateString(result.body.lastUpdate)}`;
 export async function handleF(): Promise<Message> {
   return {
     type: 'text',
-    text: reply.data.contact,
+    text: knowledge.data.contact,
   };
 }
