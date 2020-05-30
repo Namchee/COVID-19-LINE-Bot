@@ -1,13 +1,13 @@
 {
     "version": 2,
     "env": {
-        "API_URL": "@api-url",
-        "CHANNEL_ACCESS_TOKEN": "@channel-access-token",
-        "CHANNEL_SECRET": "@channel-secret",
-        "REDIS_URL": "@redis-url",
-        "REDIS_PORT": "@redis-port",
-        "REDIS_PASSWORD": "@redis-password",
-        "EXPIRATION_TIME": "@expiration-time"
+        "API_URL": "@covid19.api-url",
+        "CHANNEL_ACCESS_TOKEN": "@covid19.channel-access-token",
+        "CHANNEL_SECRET": "@covid19.channel-secret",
+        "REDIS_URL": "@covid19.redis-url",
+        "REDIS_PORT": "@covid19.redis-port",
+        "REDIS_PASSWORD": "@covid19.redis-password",
+        "EXPIRATION_TIME": "@covid19.expiration-time"
     },
     "functions": {
         "api/webhook.ts": {
