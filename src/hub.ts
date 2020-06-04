@@ -1,35 +1,48 @@
 import {
   Client,
   WebhookEvent,
+  MessageEvent,
   MessageAPIResponseBase,
   TextMessage,
   QuickReplyItem,
+  FollowEvent,
 } from '@line/bot-sdk';
-import { Redis } from 'ioredis';
-import knowledge from './reply.json';
+import replies from './../public/replies.json';
 import { COVIDService } from './types/service';
+import { StateRepository } from './repository/state';
+import { sleep } from './utils/functions';
+import { State } from './types/state';
 
 /**
  * A class which defines a hub to map request to correct services
  */
 export class BotHub {
-  private static readonly QUICK_REPLIES = {
-    items: [
-      BotHub.generateQuickReplyObject('A', 'A'),
-      BotHub.generateQuickReplyObject('B', 'B'),
-      BotHub.generateQuickReplyObject('C', 'C'),
-      BotHub.generateQuickReplyObject('D', 'D'),
-      BotHub.generateQuickReplyObject('E', 'E'),
-      BotHub.generateQuickReplyObject('F', 'F'),
-      BotHub.generateQuickReplyObject('Akhiri', 'cukup'),
-    ],
+  /**
+   * Quick reply objects
+   */
+  private readonly quickReplies = {
+    items: [] as QuickReplyItem[],
   };
 
+  /**
+   * Constructor for BotHub.
+   * Dynamically inserts all mapped services
+   */
   public constructor(
-    private readonly redis: Redis,
     private readonly client: Client,
+    private readonly stateRepository: StateRepository,
     private readonly serviceMap: Map<string, COVIDService>,
-  ) { }
+  ) {
+    for (const service of serviceMap.keys()) {
+      this.quickReplies.items.push(
+        BotHub.generateQuickReplyObject(service.toUpperCase(), service),
+      );
+    }
+
+    this.quickReplies.items.push(
+      BotHub.generateQuickReplyObject('Akhiri', 'Cukup'),
+    );
+  }
 
   /**
    * Function to handle user queries and reply with proper answer(s)
@@ -37,99 +50,89 @@ export class BotHub {
   public handleBotQuery = async (
     event: WebhookEvent,
   ): Promise<MessageAPIResponseBase | null> => {
+    // ignore the event if it's not from LINE user
+    // (temporarily) ignore non-message or follow events
     if (event.source.type !== 'user' ||
-      event.type !== 'message' ||
-      event.message.type !== 'text'
-    ) {
+      !(event.type === 'message' || event.type === 'follow')) {
       return Promise.resolve(null);
     }
 
-    const source = event.source.userId;
-    const state = await this.redis.get(source);
-    const text = event.message.text;
+    if (event.type === 'message') {
+      const source = event.source.userId;
+      const state = await this.stateRepository.getState(source);
 
-    if (state === null) {
-      const understandable = knowledge.greetings.some(
-        greeting => text.toLowerCase() === greeting,
-      );
+      if (!state) {
+        if (event.message.type !== 'text') {
+          return this.sendErrorMessage(source);
+        }
 
-      if (understandable) {
-        await this.redis.setex(source, Number(process.env.EXPIRATION_TIME), 0);
-      }
+        const text = event.message.text.toLowerCase();
+        const understandable = replies.greetings.some(
+          greeting => text.toLowerCase() === greeting,
+        );
 
-      const message: TextMessage = {
-        type: 'text',
-        text: understandable ?
-          knowledge.reply.greeting + knowledge.base_message :
-          knowledge.base_fallback + knowledge.reply.fallback_reply,
-        quickReply: understandable ? BotHub.QUICK_REPLIES : undefined,
-      };
-
-      return await this.client.replyMessage(event.replyToken, message);
-    }
-
-    if (knowledge.endings.some(end => text.toLowerCase() === end)) {
-      await this.redis.del(source);
-
-      const message: TextMessage = {
-        type: 'text',
-        text: knowledge.reply.end,
-      };
-
-      return await this.client.replyMessage(event.replyToken, message);
-    }
-
-    const service = this.serviceMap.get(text.toLowerCase());
-
-    if (!service) {
-      const errorMessage: TextMessage = {
-        type: 'text',
-        text: knowledge.base_fallback,
-      };
-
-      await this.client.replyMessage(
-        event.replyToken,
-        errorMessage,
-      );
-    } else {
-      const serviceMessage = await service();
-
-      await this.redis.setex(source, Number(process.env.EXPIRATION_TIME), 0);
-      await this.client.pushMessage(
-        source,
-        serviceMessage,
-      );
-    }
-
-    return await this.sendLINEMessage(source);
-  }
-
-  /**
-   * A function to format response to a LINE-compliant message
-   */
-  private sendLINEMessage = (
-    source: string,
-  ): Promise<MessageAPIResponseBase> => {
-    return new Promise((resolve) => {
-      setTimeout(async () => {
-        const quickReply = JSON.parse(JSON.stringify(BotHub.QUICK_REPLIES));
+        if (understandable) {
+          await this.stateRepository.setState(
+            source,
+            {
+              serviceId: '',
+              step: 0,
+            },
+          );
+        }
 
         const message: TextMessage = {
           type: 'text',
-          text: knowledge.reply.repeat + knowledge.base_message,
-          quickReply,
+          text: understandable ?
+            replies.reply.greeting + replies.base_message :
+            replies.base_fallback + replies.reply.fallback_reply,
+          quickReply: understandable ? this.quickReplies : undefined,
         };
 
-        resolve(await this.client.pushMessage(source, message));
-      }, 2500);
-    });
+        return this.client.replyMessage(event.replyToken, message);
+      } else {
+        return this.handleMessageEvent(state, event);
+      }
+    } else {
+      return this.handleFollowEvent(event);
+    }
+  }
+
+  /**
+   * Sends another prompt message after 2 seconds
+   */
+  private sendPromptMessage = async (
+    source: string,
+  ): Promise<MessageAPIResponseBase> => {
+    await this.stateRepository.setState( // lock
+      source,
+      {
+        serviceId: '',
+        step: -1,
+      },
+    );
+
+    await sleep(2000);
+
+    await this.stateRepository.setState( // unlock
+      source,
+      {
+        serviceId: '',
+        step: 0,
+      },
+    );
+
+    const message: TextMessage = {
+      type: 'text',
+      text: replies.reply.repeat + replies.base_message,
+      quickReply: this.quickReplies,
+    };
+
+    return this.client.pushMessage(source, message);
   }
 
   /**
    * A wrapper function to create a QuickReplyItem
-   *
-   * @param {string} label Item's label (a text which shown to the user)
-   * @param {string} text Text to be sent to user when the item is clicked
    */
   private static generateQuickReplyObject(
     label: string,
@@ -143,5 +146,109 @@ export class BotHub {
         text,
       },
     };
+  }
+
+  private handleMessageEvent = async (
+    state: State,
+    event: MessageEvent,
+  ): Promise<MessageAPIResponseBase | null> => {
+    // ignore command spam
+    if (state.step === -1 || event.source.type !== 'user') {
+      return Promise.resolve(null);
+    }
+
+    const source = event.source.userId;
+    let service: COVIDService | undefined;
+
+    // expect A-F and terminator
+    if (state.step === 0) {
+      await this.stateRepository.setState(
+        source,
+        {
+          serviceId: '',
+          step: 0,
+        },
+      );
+
+      if (event.message.type !== 'text') {
+        await this.sendErrorMessage(source, false);
+        return this.sendPromptMessage(source);
+      }
+
+      const text = event.message.text.toLowerCase();
+
+      if (replies.endings.some(word => word === text)) {
+        await this.stateRepository.deleteState(source);
+
+        return this.client.replyMessage(
+          event.replyToken,
+          {
+            type: 'text',
+            text: replies.reply.end,
+          },
+        );
+      }
+
+      service = this.serviceMap.get(text);
+    } else {
+      service = this.serviceMap.get(state.serviceId);
+    }
+
+    if (!service) {
+      await this.sendErrorMessage(source);
+      return this.sendPromptMessage(source);
+    }
+
+    const res = await service.handleQuery({ event, step: state.step });
+    const messages = res.messages;
+
+    if (res.step === 0) {
+      await this.client.pushMessage(source, messages);
+      return this.sendPromptMessage(source);
+    } else {
+      await this.stateRepository.setState(
+        source,
+        {
+          serviceId: service.serviceId,
+          step: res.step,
+        },
+      );
+
+      return this.client.pushMessage(source, messages);
+    }
+  }
+
+  /**
+   * Sends a greeting message when a user adds the OA
+   */
+  private handleFollowEvent = async (
+    event: FollowEvent,
+  ): Promise<MessageAPIResponseBase> => {
+    return this.client.replyMessage(
+      event.replyToken,
+      {
+        type: 'text',
+        text: replies.reply.initial_greeting,
+      },
+    );
+  }
+
+  private sendErrorMessage = async (
+    source: string,
+    first = true,
+  ): Promise<MessageAPIResponseBase> => {
+    let text = replies.base_fallback;
+
+    if (first) {
+      text += replies.reply.fallback_reply;
+    }
+
+    const textMessage: TextMessage = {
+      type: 'text',
+      text,
+    };
+
+    return this.client
+      .pushMessage(source, textMessage);
   }
 }
