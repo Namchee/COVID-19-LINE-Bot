@@ -7,10 +7,6 @@ interface ArcGisData {
   attributes: Hospital;
 }
 
-if (process.env.NODE_ENV !== 'production') {
-  process.env.RS_URL = 'https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/RS_Rujukan_Update_May_2020/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&outFields=nama%2Clat%2Clon%2Calamat%2Ctelepon';
-}
-
 /**
  * Get official hospitals data and write it to a JSON file
  */

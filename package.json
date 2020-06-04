@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.ts api/**/*.ts",
+    "build": "npm run hospital",
+    "hospital": "npx ts-node ./src/utils/scraper.ts",
     "refresh": "rm -rf node_modules/ dist/ build/ && npm i"
   },
   "keywords": [

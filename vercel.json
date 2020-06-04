@@ -1,14 +1,5 @@
 {
     "version": 2,
-    "env": {
-        "API_URL": "@covid19.api-url",
-        "CHANNEL_ACCESS_TOKEN": "@covid19.channel-access-token",
-        "CHANNEL_SECRET": "@covid19.channel-secret",
-        "REDIS_URL": "@covid19.redis-url",
-        "REDIS_PORT": "@covid19.redis-port",
-        "REDIS_PASSWORD": "@covid19.redis-password",
-        "EXPIRATION_TIME": "@covid19.expiration-time"
-    },
     "functions": {
         "api/webhook.ts": {
             "runtime": "@now/node@1.6.1"
