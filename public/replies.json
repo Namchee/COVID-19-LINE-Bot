@@ -1,0 +1,27 @@
+{
+  "greetings": ["halo", "hai", "hello", "hi"],
+  "endings": ["akhiri", "cukup", "sudah", "terima kasih", "thank you", "end"],
+
+  "base_message": "A. Apa itu COVID-19?\nB. Bagaimana cara COVID-19 menyebar?\nC. Gejala apa yang ditimbulkan oleh orang yang terjangkit COVID-19?\nD. Apa yang dapat saya lakukan untuk melindungi diri dari COVID-19?\nE. Perkembangan COVID-19 di Indonesia,\nF. Siapa saja yang bisa saya hubungi untuk mengetahui informasi mengenai COVID-19 di Indonesia?\nG. Cari lokasi rumah sakit rujukan COVID-19 terdekat dari lokasi saya.\n\nAnda dapat memilih salah satu dari huruf diatas dan mengirimnya ke chat ini.",
+  "base_fallback": "Mohon maaf, tapi saya tidak mengerti maksud permintaan anda.",
+
+  "reply": {
+    "initial_greeting": "Halo! Saya adalah bot sederhana yang bisa membantu anda untuk mendapatkan informasi terbaru mengenai status COVID-19 di Indonesia.\n\nUntuk menggunakan layanan saya, cukup sapa saya menggunakan sapaan umum seperti 'Hai', 'Halo', dan sebagainya. Selamat mencoba!",
+    "greeting": "Halo! Apa yang bisa saya bantu kali ini?\n\nSaya bisa bantu kamu untuk hal-hal berikut:\n",
+    "repeat": "Adakah hal lain yang bisa saya bantu?\n\nSaya bisa bantu anda untuk hal-hal berikut:\n",
+    "end": "Baik! Terima Kasih sudah menggunakan layanan saya.\n\nTetap waspada, ikuti protokol kesehatan yang ada, dan tetap jaga kesehatan. Semoga harimu menyenangkan!\n\n#stayathome\n#diamdirumahcuk.",
+    "fallback_reply": "Mungkin permintaan anda terlalu lama sehingga saya lupa?\n\nPS: Untuk menggunakan layanan ini, cukup sapa menggunakan sapaan umum seperti 'Hai', 'Halo', dan sebagainya.",
+    "location": {
+      "first": "Silahkan mengirimkan lokasi anda menggunakan tombol dibawah atau menggunakan fitur share location",
+      "not_location": "Mohon maaf, namun pesan yang anda kirim tidak menunjukan lokasi anda saat ini. Mohon kirim ulang lokasi anda."
+    }
+  },
+
+  "data": {
+    "what": "COVID-19 merupakan sebuah penyakit menular yang disebabkan oleh virus corona jenis baru yang pertama kali ditemukan di Wuhan, Cina pada Desember 2019.\n\nSaat ini, COVID-19 merupakan pandemi global yang sudah menyebar ke lebih dari 130 negara di dunia.",
+    "how": "Penularan COVID-19 terjadi melalui droplet (tetesan kecil) yang keluar dari mulut atau hidung penderita ketika batuk, bersin, atau berbicara.\n\nOrang lain dapat terinfeksi apabila orang tersebut mengalami kontak dengan droplet tersebut kemudian menyentuh daerah mata, bibir, dan hidung.",
+    "symptoms": "Orang yang terinfeksi virus ini akan mengalami gejala-gejala seperti:\n1. Demam,\n2. Batuk Kering,\n3. Kelelahan,\n4. Sakit Kepala, dan masih banyak lagi.\n\nApabila anda mengalami gejala-gejala tersebut dan anda pernah mengalami kontak dengan orang yang terinfeksi dalam 2 minggu terakhir, segera konsultasikan diri anda pada fasilitas kesehatan terdekat.",
+    "todo": "Anda dapat melakukan hal-hal berikut:\n1. Rajinlah mencuci tangan dengan sabun atau pembersih tangan berbasis alkohol minimal 60%.\n2. Jaga jarak dengan orang yang tampak sakit sejauh kurang lebih 1 meter.\n3. Hindari menyentuh mata, mulut, dan hidung secara langsung\n4. Ketika batuk, tutup mulut menggunakan lipatan siku atau tissue.\n5. Kurangi aktivitas diluar rumah yang tidak mendesak.",
+    "contact": "Anda dapat menghubungi pihak terkait melalui media berikut:\n\nCall Center ☎️: 119\nNomor Pelayanan Darurat ☎️: 117\nWebsite 🌐: covid19.go.id"
+  }
+}

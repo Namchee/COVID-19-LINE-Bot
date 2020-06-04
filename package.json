@@ -1,10 +1,12 @@
 {
   "name": "covid19-line-bot",
   "version": "1.0.0",
-  "description": "A simple LINE chatbot for displaying COVID-19 status in Indonesia",
+  "description": "An educational LINE chatbot about COVID-19 status in Indonesia",
   "main": "index.js",
   "scripts": {
-    "test": "ECHO: Do not test this, duh",
+    "lint": "eslint src/**/*.ts api/**/*.ts",
+    "build": "npm run hospital",
+    "hospital": "npx ts-node ./src/utils/scraper.ts",
     "refresh": "rm -rf node_modules/ dist/ build/ && npm i"
   },
   "keywords": [
@@ -32,7 +34,7 @@
   },
   "dependencies": {
     "@line/bot-sdk": "^6.8.4",
-    "@now/node": "^1.5.0",
+    "@now/node": "^1.6.1",
     "date-fns": "^2.11.0",
     "date-fns-tz": "^1.0.10",
     "ioredis": "^4.16.0",

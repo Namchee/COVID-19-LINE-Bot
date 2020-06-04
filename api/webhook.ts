@@ -2,16 +2,17 @@ import crypto from 'crypto';
 import Redis from 'ioredis';
 import { NowRequest, NowResponse } from '@now/node';
 import { Client } from '@line/bot-sdk';
-import { COVIDService } from './../src/types/service';
+import { COVIDService } from '../src/types/service';
 import { BotHub } from '../src/hub';
-import {
-  handleA,
-  handleB,
-  handleC,
-  handleD,
-  handleE,
-  handleF,
-} from '../src/services';
+import { WhatService } from './../src/service/what';
+import { HowService } from './../src/service/how';
+import { SymptomsService } from './../src/service/symptoms';
+import { TodoService } from './../src/service/todo';
+import { ContactService } from './../src/service/contact';
+import { StatusService } from './../src/service/status';
+import { LocationService } from './../src/service/location';
+import { StateRepository } from '../src/repository/state';
+
 
 let botHub: BotHub;
 
@@ -31,21 +32,24 @@ function setupDependency(): BotHub {
     },
   );
 
+  const stateRepository = new StateRepository(redisClient);
+
   const lineClient = new Client({
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN || '',
     channelSecret: process.env.CHANNEL_SECRET,
   });
 
   const serviceMap = new Map<string, COVIDService>([
-    ['a', handleA],
-    ['b', handleB],
-    ['c', handleC],
-    ['d', handleD],
-    ['e', handleE],
-    ['f', handleF],
+    ['a', new WhatService('a')],
+    ['b', new HowService('b')],
+    ['c', new SymptomsService('c')],
+    ['d', new TodoService('d')],
+    ['e', new StatusService('e')],
+    ['f', new ContactService('f')],
+    ['g', new LocationService('g')],
   ]);
 
-  botHub = new BotHub(redisClient, lineClient, serviceMap);
+  botHub = new BotHub(lineClient, stateRepository, serviceMap);
 
   return botHub;
 }
@@ -97,6 +101,10 @@ export default async function handleWebhookEvent(
     return res.status(200)
       .json(result);
   } catch (err) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(err);
+    }
+
     return res.status(500)
       .json(err.message);
   }
