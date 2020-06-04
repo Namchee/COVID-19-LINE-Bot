@@ -1,9 +1,6 @@
-name: Deploy
+name: Auto deploy per day
 
 on:
-  push:
-    branches:
-      - master
   schedule:
     - cron: '0 1 * * *'
 
