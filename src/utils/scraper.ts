@@ -31,6 +31,7 @@ async function getHospitalsData(): Promise<void> {
 
 getHospitalsData()
   .then(() => {
+    console.log('yay!');
     assert.strictEqual(true, existsSync('./public/hospitals.json'));
   })
   .catch((err: Error) => {
