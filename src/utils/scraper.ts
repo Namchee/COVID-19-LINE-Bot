@@ -1,5 +1,5 @@
 import { get } from 'superagent';
-import { writeFileSync, existsSync } from 'fs';
+import { writeFileSync, existsSync, unlinkSync } from 'fs';
 import assert from 'assert';
 import { Hospital } from '../types/model';
 
@@ -11,6 +11,10 @@ interface ArcGisData {
  * Get official hospitals data and write it to a JSON file
  */
 async function getHospitalsData(): Promise<void> {
+  if (existsSync('./public/hospitals.json')) {
+    unlinkSync('./public/hospitals.json');
+  }
+
   if (!process.env.RS_URL) {
     throw new Error('Hospitals source does not exists');
   }
