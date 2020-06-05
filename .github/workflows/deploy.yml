@@ -1,8 +1,11 @@
 name: Auto deploy per day
 
 on:
+  push:
+    branches:
+      - master
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 18 * * *'
 
 jobs:
   deploy:
@@ -10,6 +13,7 @@ jobs:
     steps:
       - name: Connect GitHub workflow with repository
         uses: actions/checkout@v2
+      - run: npm run hospital
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v19.0.1+1
         with:
