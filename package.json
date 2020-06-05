@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.ts api/**/*.ts",
-    "hospital": "npx ts-node ./src/utils/scraper.ts",
+    "hospital": "tsc ./src/utils/scraper.ts --esModuleInterop && node ./src/utils/scraper.js",
     "refresh": "rm -rf node_modules/ dist/ build/ && npm i"
   },
   "keywords": [

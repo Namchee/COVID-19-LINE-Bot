@@ -35,4 +35,5 @@ getHospitalsData()
   })
   .catch((err: Error) => {
     console.error(err.message);
+    throw err; // re-throw
   });

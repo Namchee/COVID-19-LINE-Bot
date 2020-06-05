@@ -109,3 +109,6 @@ dist
 
 .now
 .vercel
+
+public/hospitals.json
+src/**/*.js
