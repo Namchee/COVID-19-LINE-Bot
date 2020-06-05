@@ -4,17 +4,20 @@
 
 Sebuah chatbot sederhana pada platform LINE sebagai sarana edukasi masyarakat umum dan kanal informasi mengenai perkembangan COVID-19 di Indonesia.
 
-Sejak tanggal 6 April 2020, chatbot ini merupakan bagian dari pemenuhan tugas Penulisan Ilmiah.
-
 ## Fitur
 
 1. Menjawab pertanyaan dasar mengenai pandemi COVID-19 (Apa itu COVID-19, Apa yang harus saya lakukan, dan lain-lain). Informasi diambil dari [laman resmi WHO mengenai COVID-19](https://www.who.int/emergencies/diseases/novel-coronavirus-2019/question-and-answers-hub/q-a-detail/q-a-coronaviruses).
-2. Menyajikan data perkembangan COVID-19 di Indonesia (data diambil dari Data diambil dari [COVID-19 API oleh mathdroid](https://github.com/mathdroid/covid-19-api))
+2. Menyajikan data perkembangan COVID-19 di Indonesia (data diambil dari [COVID-19 API oleh mathdroid](https://github.com/mathdroid/covid-19-api))
+3. Mencari rumah sakit rujukan terdekat dari posisi pengguna chatbot (data diambil dari [situs gugus tugas percepatan penanganan COVID-19 BNPB](https://bnpb-inacovid19.hub.arcgis.com/))
 
 ## Tech Stack
 
 1. JavaScript (ES2017)
-2. Typescript ^3.8
+2. Typescript 3.8.x
+
+## Catatan
+
+Apabila anda mengunjungi laman dari dari paper dengan judul 'Pemanfaatan Chatbot Sebagai Sumber Informasi Mengenai COVID-19 di Indonesia', silahkan mengacu pada [_commit_ ini](9a1e6b557992c050351d1a1458da97b4ab785ed2)
 
 ## Lisensi
 
