@@ -17,7 +17,7 @@ Sebuah chatbot sederhana pada platform LINE sebagai sarana edukasi masyarakat um
 
 ## Catatan
 
-Apabila anda mengunjungi laman dari dari paper dengan judul 'Pemanfaatan Chatbot Sebagai Sumber Informasi Mengenai COVID-19 di Indonesia', silahkan mengacu pada [_commit_ ini](9a1e6b557992c050351d1a1458da97b4ab785ed2)
+Apabila anda mengunjungi laman dari dari paper dengan judul 'Pemanfaatan Chatbot Sebagai Sumber Informasi Mengenai COVID-19 di Indonesia', silahkan mengacu pada [_commit_ ini](https://github.com/Namchee/COVID-19-LINE-Bot/tree/9a1e6b557992c050351d1a1458da97b4ab785ed2)
 
 ## Lisensi
 
