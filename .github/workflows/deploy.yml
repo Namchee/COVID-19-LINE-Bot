@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Connect GitHub workflow with repository
         uses: actions/checkout@v2
+      - name: Install TypeScript
+        run: npm ci
       - run: npm run hospital
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v19.0.1+1
