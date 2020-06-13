@@ -1,4 +1,4 @@
-import { Message, MessageEvent } from '@line/bot-sdk';
+import { Message, MessageEvent, WebhookEvent } from '@line/bot-sdk';
 
 export interface ServiceResult {
   step: number;
@@ -20,7 +20,7 @@ export abstract class COVIDService {
     event,
     step,
   }: {
-    event: MessageEvent;
+    event: WebhookEvent;
     step: number;
   }): Promise<ServiceResult>;
 }

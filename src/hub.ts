@@ -6,6 +6,7 @@ import {
   TextMessage,
   QuickReplyItem,
   FollowEvent,
+  PostbackEvent,
 } from '@line/bot-sdk';
 import replies from './../public/replies.json';
 import { COVIDService } from './types/service';
@@ -51,51 +52,27 @@ export class BotHub {
     event: WebhookEvent,
   ): Promise<MessageAPIResponseBase | null> => {
     // ignore the event if it's not from LINE user
-    // (temporarily) ignore non-message or follow events
+    // ignore unsupported events
     if (event.source.type !== 'user' ||
-      !(event.type === 'message' || event.type === 'follow')) {
+      !(
+        event.type === 'message' ||
+        event.type === 'follow' ||
+        event.type === 'postback'
+      )
+    ) {
       return Promise.resolve(null);
     }
 
+    const source = event.source.userId;
+    const state = await this.stateRepository.getState(source);
+
     if (event.type === 'message') {
-      const source = event.source.userId;
-      const state = await this.stateRepository.getState(source);
-
-      if (!state) {
-        if (event.message.type !== 'text') {
-          return this.sendErrorMessage(source);
-        }
-
-        const text = event.message.text.toLowerCase();
-        const understandable = replies.greetings.some(
-          greeting => text.toLowerCase() === greeting,
-        );
-
-        if (understandable) {
-          await this.stateRepository.setState(
-            source,
-            {
-              serviceId: '',
-              step: 0,
-            },
-          );
-        }
-
-        const message: TextMessage = {
-          type: 'text',
-          text: understandable ?
-            replies.reply.greeting + replies.base_message :
-            replies.base_fallback + replies.reply.fallback_reply,
-          quickReply: understandable ? this.quickReplies : undefined,
-        };
-
-        return this.client.replyMessage(event.replyToken, message);
-      } else {
-        return this.handleMessageEvent(state, event);
-      }
-    } else {
-      return this.handleFollowEvent(event);
+      return this.handleMessageEvent(state, source, event);
+    } else if (event.type === 'postback') {
+      return this.handlePostbackEvent(state, source, event);
     }
+
+    return this.handleFollowEvent(event);
   }
 
   /**
@@ -148,16 +125,50 @@ export class BotHub {
     };
   }
 
+  /**
+   * Handles any text message event
+   */
   private handleMessageEvent = async (
-    state: State,
+    state: State | null,
+    source: string,
     event: MessageEvent,
   ): Promise<MessageAPIResponseBase | null> => {
+    if (!state) {
+      if (event.message.type !== 'text') {
+        return this.sendErrorMessage(source);
+      }
+
+      const text = event.message.text.toLowerCase();
+      const understandable = replies.greetings.some(
+        greeting => text.toLowerCase() === greeting,
+      );
+
+      if (understandable) {
+        await this.stateRepository.setState(
+          source,
+          {
+            serviceId: '',
+            step: 0,
+          },
+        );
+      }
+
+      const message: TextMessage = {
+        type: 'text',
+        text: understandable ?
+          replies.reply.greeting + replies.base_message :
+          replies.base_fallback + replies.reply.fallback_reply,
+        quickReply: understandable ? this.quickReplies : undefined,
+      };
+
+      return this.client.replyMessage(event.replyToken, message);
+    }
+
     // ignore command spam
-    if (state.step === -1 || event.source.type !== 'user') {
+    if (state.step === -1) {
       return Promise.resolve(null);
     }
 
-    const source = event.source.userId;
     let service: COVIDService | undefined;
 
     // expect A-F and terminator
@@ -231,6 +242,38 @@ export class BotHub {
         text: replies.reply.initial_greeting,
       },
     );
+  }
+
+  public handlePostbackEvent = async (
+    state: State | null,
+    source: string,
+    event: PostbackEvent,
+  ): Promise<MessageAPIResponseBase | null> => {
+    if (!state || !state.step) {
+      const text = event.postback.data;
+
+      const service = this.serviceMap.get(text) as COVIDService;
+
+      const res = await service.handleQuery({ event, step: 0 });
+      const messages = res.messages;
+
+      if (res.step === 0) {
+        await this.client.pushMessage(source, messages);
+        return this.sendPromptMessage(source);
+      } else {
+        await this.stateRepository.setState(
+          source,
+          {
+            serviceId: service.serviceId,
+            step: res.step,
+          },
+        );
+
+        return this.client.pushMessage(source, messages);
+      }
+    }
+
+    return Promise.resolve(null);
   }
 
   private sendErrorMessage = async (
