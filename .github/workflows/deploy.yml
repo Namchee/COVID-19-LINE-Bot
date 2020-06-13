@@ -1,4 +1,4 @@
-name: Auto deploy per day
+name: Refresh hospitals data and redeploy per day
 
 on:
   push:
@@ -15,7 +15,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Install TypeScript
         run: npm ci
-      - run: npm run hospital
+      - name: Update hospitals data
+        run: npm run hospital
         env:
           RS_URL: https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/RS_Rujukan_Update_May_2020/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&outFields=nama%2Clat%2Clon%2Calamat%2Ctelepon
       - name: Deploy to Vercel

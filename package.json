@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src/**/*.ts api/**/*.ts",
-    "hospital": "tsc ./src/utils/scraper.ts --esModuleInterop && node ./src/utils/scraper.js",
+    "hospital": "tsc ./src/scripts/scraper.ts --esModuleInterop && node ./src/scripts/scraper.js",
+    "rich-menu": "tsc ./src/scripts/rich-menu.ts --esModuleInterop && node ./src/scripts/rich-menu.js",
     "refresh": "rm -rf node_modules/ dist/ build/ && npm i"
   },
   "keywords": [
@@ -23,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-jsdoc": "^22.1.0",
