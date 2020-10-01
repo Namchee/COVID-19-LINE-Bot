@@ -4,6 +4,12 @@
 
 Sebuah chatbot sederhana pada platform LINE sebagai sarana edukasi masyarakat umum dan kanal informasi mengenai perkembangan COVID-19 di Indonesia.
 
+Anda dapat menambahkan _chatbot_ sebagai teman pada aplikasi LINE dengan men-_scan_ QR Code dibawah ini
+
+<p align="center">
+  <img src="docs/qr-code.png" title="QR Code" alt="QR Code" />
+</p>
+
 ## Fitur
 
 1. Menjawab pertanyaan dasar mengenai pandemi COVID-19 (Apa itu COVID-19, Apa yang harus saya lakukan, dan lain-lain). Informasi diambil dari [laman resmi WHO mengenai COVID-19](https://www.who.int/emergencies/diseases/novel-coronavirus-2019/question-and-answers-hub/q-a-detail/q-a-coronaviruses).
